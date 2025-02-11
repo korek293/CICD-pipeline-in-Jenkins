@@ -64,10 +64,10 @@ pipeline {
                     // Stop and remove previously running containers to avoid conflicts
                     echo "Stopping and removing old containers"
                     sh '''
-                    docker ps -q --filter "name=nodemain" | xargs --no-run-if-empty docker stop
-                    docker ps -q --filter "name=nodedev" | xargs --no-run-if-empty docker stop
-                    docker ps -q --filter "name=nodemain" | xargs --no-run-if-empty docker rm
-                    docker ps -q --filter "name=nodedev" | xargs --no-run-if-empty docker rm
+                    docker ps -aq --filter "name=nodemain" | xargs --no-run-if-empty docker stop
+                    docker ps -aq --filter "name=nodedev" | xargs --no-run-if-empty docker stop
+                    docker ps -aq --filter "name=nodemain" | xargs --no-run-if-empty docker rm
+                    docker ps -aq --filter "name=nodedev" | xargs --no-run-if-empty docker rm
                     '''
                 }
             }
@@ -78,7 +78,7 @@ pipeline {
                 script {
                     // Run the Docker container based on the specified port
                     echo "Deploying Docker container for ${BRANCH_NAME}"
-                    sh "docker run -d --name ${IMAGE_TAG} -p ${PORT}:3000 ${IMAGE_TAG}"
+                    sh "docker run -d -p ${PORT}:3000 ${IMAGE_TAG}"
                     echo "Application is running at http://localhost:${PORT}"
                 }
             }
