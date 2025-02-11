@@ -39,11 +39,11 @@ pipeline {
                     // Conditional logic based on the branch name
                     if (BRANCH_NAME == "main") {
                         IMAGE_TAG = "nodemain:v1.0"
-                        LOGO_PATH = "logo_main.svg"
+                        LOGO_PATH = "logo-main.svg"
                         PORT = "3000"
                     } else if (BRANCH_NAME == "dev") {
                         IMAGE_TAG = "nodedev:v1.0"
-                        LOGO_PATH = "logo_dev.svg"
+                        LOGO_PATH = "logo-dev.svg"
                         PORT = "3001"
                     }
 
@@ -85,7 +85,7 @@ pipeline {
                 script {
                     // Replace the logo in the application
                     echo "Changing logo for ${BRANCH_NAME} branch"
-                    sh "cp ${LOGO_PATH} ./public/logo.svg"
+                    sh "cp ${LOGO_PATH} ./src/logo.svg"
                 }
             }
         }
