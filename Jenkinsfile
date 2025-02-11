@@ -78,7 +78,7 @@ pipeline {
                 script {
                     // Run the Docker container based on the specified port
                     echo "Deploying Docker container for ${BRANCH_NAME}"
-                    sh "docker run -d --expose ${PORT} -p ${PORT}:3000 ${IMAGE_TAG}"
+                    sh "docker run -d --name ${IMAGE_TAG} -p ${PORT}:3000 ${IMAGE_TAG}"
                     echo "Application is running at http://localhost:${PORT}"
                 }
             }
