@@ -6,15 +6,10 @@ pipeline {
         IMAGE_TAG = ''
         LOGO_PATH = ''
     }
+	tools {
+        nodejs 'node'
+    }
     stages {
-		stage('Check Git Branch') {
-			steps {
-				script {
-					echo "Current Git Branch: ${env.GIT_BRANCH}"
-				}
-			}
-		}
-
         stage('Checkout') {
             steps {
                 checkout scm  // Checkout the code from GitHub
