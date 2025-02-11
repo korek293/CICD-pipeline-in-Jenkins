@@ -7,6 +7,14 @@ pipeline {
         LOGO_PATH = ''
     }
     stages {
+		stage('Check Git Branch') {
+			steps {
+				script {
+					echo "Current Git Branch: ${env.GIT_BRANCH}"
+				}
+			}
+		}
+
         stage('Checkout') {
             steps {
                 checkout scm  // Checkout the code from GitHub
