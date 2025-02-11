@@ -6,7 +6,7 @@ pipeline {
         IMAGE_TAG = ''
         LOGO_PATH = ''
     }
-	tools {
+    tools {
         nodejs 'node'
     }
 
@@ -17,10 +17,26 @@ pipeline {
             }
         }
 
+        stage('Change Logo') {
+            steps {
+                script {
+                    // Set correct logo path based on branch
+                    if (BRANCH_NAME == "main") {
+                        LOGO_PATH = "logo-main.svg"
+                    } else if (BRANCH_NAME == "dev") {
+                        LOGO_PATH = "logo-dev.svg"
+                    }
+
+                    // Replace the logo in the application BEFORE building the Docker image
+                    echo "Changing logo for ${BRANCH_NAME} branch"
+                    sh "cp ${LOGO_PATH} ./src/logo.svg"
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
-                    // Run npm install
                     echo "Running npm install"
                     sh 'npm install'
                 }
@@ -30,7 +46,6 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Run npm test
                     echo "Running npm test"
                     sh 'npm test'
                 }
@@ -40,18 +55,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Conditional logic based on the branch name
+                    // Set image tag and port based on branch
                     if (BRANCH_NAME == "main") {
                         IMAGE_TAG = "nodemain:v1.0"
-                        LOGO_PATH = "logo-main.svg"
                         PORT = "3000"
                     } else if (BRANCH_NAME == "dev") {
                         IMAGE_TAG = "nodedev:v1.0"
-                        LOGO_PATH = "logo-dev.svg"
                         PORT = "3001"
                     }
 
-                    // Build Docker image with the specified tag
+                    // Build Docker image with the correct logo
                     echo "Building Docker image for ${BRANCH_NAME} branch"
                     sh "docker build -t ${IMAGE_TAG} ."
                 }
@@ -61,11 +74,10 @@ pipeline {
         stage('Stop and Remove Old Containers') {
             steps {
                 script {
-                    // Stop and remove previously running containers to avoid conflicts
                     echo "Stopping and removing old containers"
                     sh '''
-					docker ps -q --filter "publish=3000" | xargs --no-run-if-empty docker stop
-					docker ps -q --filter "publish=3000" | xargs --no-run-if-empty docker rm
+                    docker ps -q --filter "publish=3000" --filter "publish=3001" | xargs --no-run-if-empty docker stop
+					docker ps -q --filter "publish=3000" --filter "publish=3001" | xargs --no-run-if-empty docker rm
                     '''
                 }
             }
@@ -74,28 +86,17 @@ pipeline {
         stage('Deploy to Docker') {
             steps {
                 script {
-                    // Run the Docker container based on the specified port
                     echo "Deploying Docker container for ${BRANCH_NAME}"
                     sh "docker run -d -p ${PORT}:3000 ${IMAGE_TAG}"
                     echo "Application is running at http://localhost:${PORT}"
                 }
             }
         }
-
-        stage('Change Logo') {
-            steps {
-                script {
-                    // Replace the logo in the application
-                    echo "Changing logo for ${BRANCH_NAME} branch"
-                    sh "cp ${LOGO_PATH} ./src/logo.svg"
-                }
-            }
-        }
     }
+
     post {
         always {
             cleanWs()  // Clean workspace after each build
         }
     }
 }
-
