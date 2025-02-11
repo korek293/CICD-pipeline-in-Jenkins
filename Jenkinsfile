@@ -64,10 +64,8 @@ pipeline {
                     // Stop and remove previously running containers to avoid conflicts
                     echo "Stopping and removing old containers"
                     sh '''
-                    docker ps -aq --filter "name=nodemain" | xargs --no-run-if-empty docker stop
-                    docker ps -aq --filter "name=nodedev" | xargs --no-run-if-empty docker stop
-                    docker ps -aq --filter "name=nodemain" | xargs --no-run-if-empty docker rm
-                    docker ps -aq --filter "name=nodedev" | xargs --no-run-if-empty docker rm
+					docker ps -q --filter "publish=3000" | xargs --no-run-if-empty docker stop
+					docker ps -q --filter "publish=3000" | xargs --no-run-if-empty docker rm
                     '''
                 }
             }
