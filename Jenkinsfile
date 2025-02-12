@@ -3,8 +3,8 @@ pipeline {
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
         PORT = ''
-        IMAGE_TAG = ''
         LOGO_PATH = ''
+		REPO_NAME = 'abahuslauski_application'
     }
     tools {
         nodejs 'node'
@@ -36,41 +36,47 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
+        stage('Build image') {
             steps {
                 script {
                     if (BRANCH_NAME == "main") {
-                        IMAGE_TAG = "nodemain:v1.0"
+                        env.IMAGE_TAG = "toxic5/abahuslauski_application:nodemain-v1.0"
                         PORT = "3000"
                     } else if (BRANCH_NAME == "dev") {
-                        IMAGE_TAG = "nodedev:v1.0"
+                        env.IMAGE_TAG = "toxic5/abahuslauski_application:nodedev-v1.0"
                         PORT = "3001"
                     }
-                    sh "docker build -t ${IMAGE_TAG} ."
+                    sh "docker build -t ${env.IMAGE_TAG} ."
                 }
             }
         }
-
-        stage('Stop and Remove Old Containers') {
+		stage('Push') {
+            steps {
+			  withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', 
+												passwordVariable: 'dockerHubPassword', 
+												usernameVariable: 'dockerHubUser')]) {
+				sh 'echo "$dockerHubPassword" | docker login -u "$dockerHubUser" --password-stdin'
+				sh "docker push ${env.IMAGE_TAG}"
+                }
+            }
+        }
+        stage('Deploy') {
             steps {
                 script {
-                    sh "docker ps -q --filter 'publish=3000' --filter 'publish=3001' | xargs --no-run-if-empty docker stop"
-					sh "docker ps -q --filter 'publish=3000' --filter 'publish=3001' | xargs --no-run-if-empty docker rm"
+                    sh "docker run -d -p ${PORT}:3000 ${env.IMAGE_TAG}"
                 }
             }
         }
-        stage('Deploy to Docker') {
+		stage('Run job') {
             steps {
                 script {
-                    sh "docker run -d -p ${PORT}:3000 ${IMAGE_TAG}"
-                    echo "Application is running on http://localhost:${PORT}"
+                    if (BRANCH_NAME == "main") {
+                        build job: 'Deploy_to_main'
+                    } else if (BRANCH_NAME == "dev") {
+                        build job: 'Deploy_to_dev'
+                    }
                 }
             }
-        }
-    }
-    post {
-        always {
-            cleanWs()
-        }
+		}
     }
 }
