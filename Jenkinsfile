@@ -22,6 +22,13 @@ pipeline {
                 }
             }
         }
+		stage('Lint Dockerfile') {
+            steps {
+                script {
+                    sh 'hadolint Dockerfile'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
