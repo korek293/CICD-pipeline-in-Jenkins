@@ -47,10 +47,10 @@ pipeline {
             steps {
                 script {
                     if (BRANCH_NAME == "main") {
-                        env.IMAGE_TAG = "toxic5/abahuslauski_application:nodemain-v1.0"
+                        IMAGE_TAG = "toxic5/abahuslauski_application:nodemain-v1.0"
                         PORT = "3000"
                     } else if (BRANCH_NAME == "dev") {
-                        env.IMAGE_TAG = "toxic5/abahuslauski_application:nodedev-v1.0"
+                        IMAGE_TAG = "toxic5/abahuslauski_application:nodedev-v1.0"
                         PORT = "3001"
                     }
                     sh "docker build -t ${env.IMAGE_TAG} ."
@@ -71,14 +71,14 @@ pipeline {
 												passwordVariable: 'dockerHubPassword', 
 												usernameVariable: 'dockerHubUser')]) {
 				sh 'echo "$dockerHubPassword" | docker login -u "$dockerHubUser" --password-stdin'
-				sh "docker push ${env.IMAGE_TAG}"
+				sh "docker push ${IMAGE_TAG}"
                 }
             }
         }
         stage('Deploy') {
             steps {
                 script {
-                    sh "docker run -d -p ${PORT}:3000 ${env.IMAGE_TAG}"
+                    sh "docker run -d -p ${PORT}:3000 ${IMAGE_TAG}"
                 }
             }
         }
