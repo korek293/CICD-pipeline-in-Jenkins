@@ -75,13 +75,6 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                script {
-                    sh "docker run -d -p ${PORT}:3000 ${IMAGE_TAG}"
-                }
-            }
-        }
 		stage('Run job') {
             steps {
                 script {
