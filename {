@@ -172,4 +172,42 @@ Saving to: ‘trivy_0.18.3_Linux-64bit.deb’
 Preparing to unpack trivy_0.18.3_Linux-64bit.deb ...
 Unpacking trivy (0.18.3) ...
 Setting up trivy (0.18.3) ...
-[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTO
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ docker ps
+[?2004lCONTAINER ID   IMAGE          COMMAND           CREATED             STATUS             PORTS                                       NAMES
+6b82977e727e   0ee029aa7969   "npm run start"   About an hour ago   Up About an hour   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   interesting_morse
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ docker stop 6b82977e727e 
+[?2004l6b82977e727e
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ docker rm 6b82977e727e 
+[?2004l6b82977e727e
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git add .
+[?2004l[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git commit -m "l"
+[?2004l[main 6caae9e] l
+ 3 files changed, 179 insertions(+), 4 deletions(-)
+ create mode 100644 trivy_0.18.3_Linux-64bit.deb
+ create mode 100644 {
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git push
+[?2004lUsername for 'https://github.com': korek293
+Password for 'https://korek293@github.com': 
+Enumerating objects: 7, done.
+Counting objects:  14% (1/7)Counting objects:  28% (2/7)Counting objects:  42% (3/7)Counting objects:  57% (4/7)Counting objects:  71% (5/7)Counting objects:  85% (6/7)Counting objects: 100% (7/7)Counting objects: 100% (7/7), done.
+Delta compression using up to 12 threads
+Compressing objects:  20% (1/5)Compressing objects:  40% (2/5)Compressing objects:  60% (3/5)Compressing objects:  80% (4/5)Compressing objects: 100% (5/5)Compressing objects: 100% (5/5), done.
+Writing objects:  20% (1/5)Writing objects:  40% (2/5)Writing objects:  60% (3/5)Writing objects:  60% (3/5), 1.07 MiB | 1.07 MiB/sWriting objects:  60% (3/5), 5.69 MiB | 2.81 MiB/sWriting objects:  80% (4/5), 8.81 MiB | 3.49 MiB/sWriting objects: 100% (5/5), 8.81 MiB | 3.49 MiB/sWriting objects: 100% (5/5), 10.98 MiB | 3.49 MiB/s, done.
+Total 5 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas:   0% (0/2)[Kremote: Resolving deltas:  50% (1/2)[Kremote: Resolving deltas: 100% (2/2)[Kremote: Resolving deltas: 100% (2/2), completed with 2 local objects.[K
+To https://github.com/korek293/LAB3-CICD.git
+   ad3006d..6caae9e  main -> main
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git pushcommit -m "l"[8Padd .
+[?2004l[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git add .[1Ppushcommit -m "l"1"
+[?2004l[main a947d29] l1
+ 1 file changed, 7 deletions(-)
+[?2004h]0;toxic@LAPTOP-3LCO2JST: ~/cicd-pipeline[01;32mtoxic@LAPTOP-3LCO2JST[00m:[01;34m~/cicd-pipeline[0;32m (main)[00m$ git commit -m "l1"[9Padd .[1Ppush
+[?2004lUsername for 'https://github.com': korek293
+Password for 'https://korek293@github.com': 
+Enumerating objects: 5, done.
+Counting objects:  20% (1/5)Counting objects:  40% (2/5)Counting objects:  60% (3/5)Counting objects:  80% (4/5)Counting objects: 100% (5/5)Counting objects: 100% (5/5), done.
+Delta compression using up to 12 threads
+Compressing objects:  33% (1/3)Compressing objects:  66% (2/3)Compressing objects: 100% (3/3)Compressing objects: 100% (3/3), done.
+Writing objects:  33% (1/3)Writing objects:  66% (2/3)Writing objects: 100% (3/3)Writing objects: 100% (3/3), 280 bytes | 280.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas:   0% (0/2)[Kremote: Resolving deltas:  50% (1/2)[Kremote: Resolving deltas: 100% (2/2)[Kremote: Resolving deltas: 100% (2/2), completed with 2 local object
