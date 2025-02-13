@@ -1,10 +1,10 @@
+@Library('my-shared-library') _
 pipeline {
     agent any
     environment {
         BRANCH_NAME = "${env.GIT_BRANCH}"
         PORT = ''
         LOGO_PATH = ''
-		REPO_NAME = 'abahuslauski_application'
     }
     tools {
         nodejs 'node'
@@ -25,7 +25,7 @@ pipeline {
 		stage('Lint Dockerfile') {
             steps {
                 script {
-                    sh 'hadolint Dockerfile'
+					dockerLint()
                 }
             }
         }
@@ -54,6 +54,14 @@ pipeline {
                         PORT = "3001"
                     }
                     sh "docker build -t ${env.IMAGE_TAG} ."
+                }
+            }
+        }
+		stage('Trivy scanning') {
+            steps {
+                script {
+                    def vulnerabilities = sh(script: "trivy image --exit-code 0 --severity HIGH,MEDIUM,LOW --no-progress ${env.IMAGE_TAG}", returnStdout: true).trim()
+					echo "Vulnerability Report:\n${vulnerabilities}"
                 }
             }
         }
